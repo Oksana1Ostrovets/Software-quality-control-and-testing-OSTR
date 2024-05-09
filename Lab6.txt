@@ -1,0 +1,68 @@
+Колекція тестів Google Meet:
+1.Створення нової конференції:
+Метод: POST
+URL: https://meet.google.com/api/conference/create
+Body (JSON):
+json
+Copy code
+{
+  "subject": "Test Meeting",
+  "start_time": "2024-05-09T12:00:00",
+  "duration": 60,
+  "attendees": ["attendee1@example.com", "attendee2@example.com"]
+}
+Тест: Перевірте, чи повертається статус код 200 та чи містить відповідь об'єкт конференції з унікальним ID.
+2.Отримання інформації про конференцію:
+Метод: GET
+URL: https://meet.google.com/api/conference/:conference_id
+Тест: Перевірте, чи повертається статус код 200 та чи містить відповідь інформацію про конференцію з відповідним ID.
+3.Приєднання до конференції:
+Метод: POST
+URL: https://meet.google.com/api/conference/:conference_id/join
+Body (JSON):
+json
+Copy code
+{
+  "user": "username",
+  "password": "password"
+}
+Тест: Перевірте, чи повертається статус код 200 та чи успішно приєднано до конференції.
+4.Зміна прав доступу до конференції:
+Метод: PUT
+URL: {{base_url}}/conference/:conference_id/access
+Body (JSON):
+json
+Copy code
+{
+  "access_level": "private"
+}
+Тест: Перевірте, чи повертається статус код 200 та чи змінено рівень доступу до конференції.
+5.Обмін повідомленнями в конференції:
+Метод: POST
+URL: {{base_url}}/conference/:conference_id/message
+Body (JSON):
+json
+Copy code
+{
+  "message": "Hello, everyone!"
+}
+Тест: Перевірте, чи повертається статус код 200 та чи відправлено повідомлення в конференцію.
+6.Запуск екранного спільного доступу:
+Метод: POST
+URL: {{base_url}}/conference/:conference_id/screenshare
+Body (JSON):
+json
+Copy code
+{
+  "screen_id": "screen123"
+}
+Тест: Перевірте, чи повертається статус код 200 та чи запущено екранний спільний доступ у конференції.
+
+
+Глобальні змінні та середовища:
+Global Variables:
+base_url: https://meet.google.com/api
+username: ваше ім'я користувача
+password: ваш пароль
+Environment Variables:
+conference_id: унікальний ID конференції, який буде використовуватися для тестів
