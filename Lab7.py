@@ -1,28 +1,33 @@
+import pytest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
+from time import sleep
 
-driver = webdriver.Chrome() 
-
-try:
-    # 1. Тест: Відкриття сторінки Google Meet
-    driver.get("https://meet.google.com/")
-
-    # 2. Знаходимо елемент для введення коду
-    code_input = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, "form.meeting input.input"))
-    )
+def test_speakua_website():
+    print("Starting test...")
     
-    # 3. Вводимо тестовий код
-    code_input.send_keys("vrx-chpi-zxw")
-
-    # 4. Знаходимо та натискаємо кнопку "Приєднатись"
-    join_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "form.meeting button.join-meeting"))
-    )
-    join_button.click()
-
+    # Запускаємо браузер Chrome
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--start-maximized")
+    driver = webdriver.Chrome(options=chrome_options)
     
-finally:
+    print("Browser launched.")
+    
+    # Відкриваємо веб-сайт speakua.com
+    driver.get("https://www.speakua.com/")
+    print("Website opened.")
+    
+    # Додамо затримку перед перевіркою заголовка
+    sleep(3)
+    
+    # Перевіряємо, чи фактичний заголовок містить певне ключове слово
+    expected_keyword = "Speak Ukrainian"
+    assert expected_keyword in driver.title
+    
+    print("Title verified.")
+    
+    # Закриваємо браузер
     driver.quit()
+    print("Browser closed.")
+
+test_speakua_website()
