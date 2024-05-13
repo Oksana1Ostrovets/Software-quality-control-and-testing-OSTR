@@ -1,39 +1,32 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# Ініціалізація веб-драйвера
-driver = webdriver.Chrome()
+class LoginPage:
+    def init(self, driver):
+        self.driver = driver
+        self.url = "https://www.speakua.com/my-account/"
+        self.username_input_locator = (By.ID, "username")
+        self.password_input_locator = (By.ID, "password")
+        self.login_button_locator = (By.NAME, "login")
+        self.loader_locator = (By.CLASS_NAME, "loader-section")
 
-# Відкриття сторінки входу
-driver.get("https://www.speakua.com/my-account/")
+    def open(self):
+        self.driver.get(self.url)
 
-# Знаходимо поля введення користувача та пароля
-username_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "username")))
-password_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "password")))
+    def login(self, username, password):
+        username_input = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.username_input_locator))
+        password_input = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.password_input_locator))
 
-# Введення даних користувача та пароля
-username_input.clear()
-username_input.send_keys("ostrovets.oksana@chnu.edu.ua")
-password_input.clear()
-password_input.send_keys("Надійнийпароль111")
+        username_input.clear()
+        username_input.send_keys(username)
+        password_input.clear()
+        password_input.send_keys(password)
 
-# Знаходимо кнопку входу
-login_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.NAME, "login")))
-WebDriverWait(driver, 10).until(EC.invisibility_of_element_located((By.CLASS_NAME, "loader-section")))
+        login_button = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.login_button_locator))
+        WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located(self.loader_locator))
 
-# Клацання на кнопку входу
-login_button.click()
+        login_button.click()
 
-# Очікування переходу на нову сторінку
-WebDriverWait(driver, 10).until(EC.url_contains("my-account"))
-
-# Перевірка результату тесту
-if "my-account" in driver.current_url:
-    print("Успішний вхід. Користувач увійшов до свого облікового запису.")
-else:
-    print("Помилка. Користувач не ввійшов до свого облікового запису.")
-
-# Закриття веб-драйвера
-driver.quit()
+    def is_login_successful(self):
+        return "my-account" in self.driver.current_url
