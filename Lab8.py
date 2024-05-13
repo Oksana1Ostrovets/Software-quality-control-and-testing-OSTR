@@ -19,9 +19,9 @@ class LoginPage:
         password_input = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.password_input_locator))
 
         username_input.clear()
-        username_input.send_keys(username)
+        username_input.send_keys(ostrovets.oksana@chnu.edu.ua)
         password_input.clear()
-        password_input.send_keys(password)
+        password_input.send_keys(Надійнийпароль111)
 
         login_button = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.login_button_locator))
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located(self.loader_locator))
